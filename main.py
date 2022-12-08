@@ -16,7 +16,7 @@ def receive():
 
     msg = resp.message("Thanks for texting back")
 
-    print(request.data)
+    print(request.body)
     return str(resp)
 
 
