@@ -12,7 +12,7 @@ def index():
 @app.route('/receive', methods = ["POST"])
 def receive():
     print(request)
-    return request
+    return "hello"
 
 
 if __name__ == '__main__':
