@@ -14,9 +14,21 @@ def index():
 def receive():
     resp = MessagingResponse()
 
-    msg = resp.message("Thanks for texting back")
+    
 
-    print(request.form)
+    numMedia = int(request.form['NumMedia'])
+
+
+    if numMedia == 1:
+        msg = resp.message("Thank you for the receipt!")
+        print(request.form['MediaUrl0'])
+
+    else:
+        msg = resp.message("Please send 1 picture of the Receipt")
+
+
+
+    
     return str(resp)
 
 
