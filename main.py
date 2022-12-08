@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from twilio.twiml.messaging_response import MessagingResponse
 
 import os
 
@@ -9,10 +10,16 @@ app = Flask(__name__)
 def index():
     return jsonify({"Choo Choo": "Welcome to your Flask app 🚅"})
 
-@app.route('/receive', methods = ["POST"])
+@app.route('/receive', methods = ['GET', "POST"])
 def receive():
-    print(request)
-    return "hello"
+    resp = MessagingResponse()
+
+    msg = resp.message("Thanks for texting back")
+
+    
+
+    print(request.data)
+    return str(resp)
 
 
 if __name__ == '__main__':
