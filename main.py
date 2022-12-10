@@ -2,14 +2,11 @@ from flask import Flask, jsonify, request
 from twilio.twiml.messaging_response import MessagingResponse
 import urllib.request
 from supabase import create_client, Client
-from dotenv import load_dotenv
 
 
 import os
 
 app = Flask(__name__)
-
-load_dotenv()
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
