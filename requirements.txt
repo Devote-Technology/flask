@@ -7,3 +7,4 @@ MarkupSafe==1.1.1
 Werkzeug==1.0.1
 twilio==7.15.4
 supabase==0.7.1
+dotenv==0.21.0

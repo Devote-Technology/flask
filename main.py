@@ -44,7 +44,7 @@ def receive():
 def sendReceipt(link):
 
     image = urllib.request(link)
-    supabase.storage().from_("receipt").upload("test.png", image)
+    supabase.storage().from_("receipt").upload("test1.png", image)
     
     #upload image to db somehow
 
