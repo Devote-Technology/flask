@@ -45,14 +45,14 @@ def approveTransaction():
     # Verify webhook signature and extract the event.
     try:
         event = stripe.Webhook.construct_event(
-        payload=request.data, sig_header=signature, secret=webhook_secret
+        payload=request.data, sig_header=signature
         )
     except ValueError as e:
         # Invalid payload.
-        return HttpResponse(status=400)
+        return ("Invalid payload", 400)
     except stripe.error.SignatureVerificationError as e:
         # Invalid signature
-        return HttpResponse(status=400)
+        return ("Invalid signature", 400)
 
     if event["type"] == "issuing_authorization.request":
         auth = event["data"]["object"]
