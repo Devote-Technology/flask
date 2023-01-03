@@ -28,7 +28,7 @@ stripe.api_key = 'sk_test_51LruhiLQhKtna1xjBrA0gz4hdt5Fpkrk1HIckTnYPiFbBbWmmIVYv
 webhook_secret = 'whsec_...'
 
 
-conn = psycopg2.connect(database=db, user = user, password = password, host = host, port = port)
+#conn = psycopg2.connect(database=db, user = user, password = password, host = host, port = port)
 
 
 @app.route('/')
