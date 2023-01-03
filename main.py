@@ -28,12 +28,12 @@ stripe.api_key = 'sk_test_51LruhiLQhKtna1xjBrA0gz4hdt5Fpkrk1HIckTnYPiFbBbWmmIVYv
 webhook_secret = 'whsec_...'
 
 
+conn = psycopg2.connect(database=db, user = user, password = password, host = host, port = port)
+
+
 @app.route('/')
 def index():
     return jsonify({"Choo Choo": "Welcome to your Flask app 🚅"})
-
-
-conn = psycopg2.connect(database=db, user = user, password = password, host = host, port = port)
 
 
 @app.route('/transaction', methods = ['GET', 'POST'])
@@ -47,6 +47,7 @@ def approveTransaction():
         event = stripe.Webhook.construct_event(
         payload=request.data, sig_header=signature
         )
+        print(event)
     except ValueError as e:
         # Invalid payload.
         return ("Invalid payload", 400)
@@ -101,7 +102,7 @@ def receive():
     if numMedia == 1:
         msg = resp.message("Thank you for the receipt!")
         print(request.form['MediaUrl0'])
-        sendReceipt(request.form['MediaUrl0'])
+        # sendReceipt(request.form['MediaUrl0'])
         
 
     else:
@@ -110,12 +111,12 @@ def receive():
     return str(resp)
 
 
-def sendReceipt(link):
+# def sendReceipt(link):
 
     
-    supabase.storage().from_("receipt").upload("test1.png", image)
+#     supabase.storage().from_("receipt").upload("test1.png", image)
     
-    #upload image to db somehow
+#     #upload image to db somehow
 
 
 
