@@ -1,7 +1,9 @@
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request, render_template
 from twilio.twiml.messaging_response import MessagingResponse
 import urllib.request
 import psycopg2
+import stripe
+import json
 # from supabase import create_client, Client
 from twilio.rest import Client
 import os
@@ -17,6 +19,14 @@ password: str = os.environ.get("DB_PASSWORD")
 host: str = os.environ.get("DB_HOST")
 port: str = os.environ.get("DB_PORT")
 
+# Set your secret key. Remember to switch to your live secret key in production.
+# See your keys here: https://dashboard.stripe.com/apikeys
+stripe.api_key = 'sk_test_51LruhiLQhKtna1xjBrA0gz4hdt5Fpkrk1HIckTnYPiFbBbWmmIVYvDKUNQYexxRAQaOyKNH9rdTEtuTreclGALbr00eJvEOIjl'
+
+# Uncomment and replace with a real secret. You can find your endpoint's
+# secret in your webhook settings.
+webhook_secret = 'whsec_...'
+
 
 @app.route('/')
 def index():
@@ -28,19 +38,36 @@ conn = psycopg2.connect(database=db, user = user, password = password, host = ho
 
 @app.route('/transaction', methods = ['GET', 'POST'])
 def approveTransaction():
-    #TODO: FIGURE OUT THE WHAT IS PASSED TO US
+
+    request_data = json.loads(request.data)
+    signature = request.headers.get("stripe-signature")
+
+    # Verify webhook signature and extract the event.
+    try:
+        event = stripe.Webhook.construct_event(
+        payload=request.data, sig_header=signature, secret=webhook_secret
+        )
+    except ValueError as e:
+        # Invalid payload.
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    if event["type"] == "issuing_authorization.request":
+        auth = event["data"]["object"]
+        # ... custom business logic
+
+        return json.dumps({"approved": True}), 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
+    #TODO: FIGURE OUT THE WHAT IS PASSED TO Up    
+
 
     #TODO: See if transaction is approved
 
-    approved = True
 
-    if approved:
-        print(approved)
-        #TODO: Send an okay response
-        #TODO: send the text messsage 
 
-    else:
-        #TODO: send not approved response
+
+    
 
     
 

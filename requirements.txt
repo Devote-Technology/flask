@@ -8,4 +8,5 @@ Werkzeug==1.0.1
 twilio==7.15.4
 supabase==0.7.1
 psycopg2==2.9.5
+stripe==5.0.0
 
