@@ -25,7 +25,7 @@ stripe.api_key = 'sk_test_51LruhiLQhKtna1xjBrA0gz4hdt5Fpkrk1HIckTnYPiFbBbWmmIVYv
 
 # Uncomment and replace with a real secret. You can find your endpoint's
 # secret in your webhook settings.
-webhook_secret = 'whsec_...'
+webhook_secret = 'whsec_cWwI9shNT55pFGiIAaknhL8ITNjB5Mgd'
 
 
 #conn = psycopg2.connect(database=db, user = user, password = password, host = host, port = port)
@@ -39,13 +39,13 @@ def index():
 @app.route('/transaction', methods = ['GET', 'POST'])
 def approveTransaction():
 
-    request_data = json.loads(request.data)
+    request_data = json.loads(request.data) #not sure what this is.
     signature = request.headers.get("stripe-signature")
 
     # Verify webhook signature and extract the event.
     try:
         event = stripe.Webhook.construct_event(
-        payload=request.data, sig_header=signature
+        payload=request.data, sig_header=signature, secret=webhook_secret
         )
         print(event)
     except ValueError as e:
@@ -57,6 +57,7 @@ def approveTransaction():
 
     if event["type"] == "issuing_authorization.request":
         auth = event["data"]["object"]
+        print("auth", auth)
         # ... custom business logic
 
         return json.dumps({"approved": True}), 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
