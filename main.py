@@ -25,7 +25,7 @@ stripe.api_key = 'sk_test_51LruhiLQhKtna1xjBrA0gz4hdt5Fpkrk1HIckTnYPiFbBbWmmIVYv
 
 # Uncomment and replace with a real secret. You can find your endpoint's
 # secret in your webhook settings.
-webhook_secret = 'whsec_cWwI9shNT55pFGiIAaknhL8ITNjB5Mgd'
+webhook_secret = 'whsec_ae2e9V6KIbrIR5ei6ph1jKjJSw9q52Xc'
 
 
 #conn = psycopg2.connect(database=db, user = user, password = password, host = host, port = port)
