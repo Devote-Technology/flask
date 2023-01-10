@@ -7,7 +7,7 @@ import os
 def sendMessage(number, merchant):
     account_sid = os.environ['TWILIO_ACCOUNT_SID']
     auth_token = os.environ['TWILIO_AUTH_TOKEN']
-    client = Client()
+    client = Client(account_sid, auth_token)
     
 
     companyNum = "+16506403459"
@@ -20,3 +20,5 @@ def sendMessage(number, merchant):
     from_= companyNum,
     to=number
     )
+
+    print(message.sid)
