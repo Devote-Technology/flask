@@ -1,6 +1,6 @@
 import os
 import psycopg2
-from dotenv import load_dotenv
+
 
 
 db: str = os.environ.get("DB_NAME")
