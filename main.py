@@ -6,7 +6,11 @@ import stripe
 import json
 # from supabase import create_client, Client
 from twilio.rest import Client
+from text import *
 import os
+import threading
+
+
 
 app = Flask(__name__)
 
@@ -57,10 +61,21 @@ def approveTransaction():
 
     if event["type"] == "issuing_authorization.request":
         auth = event["data"]["object"]
-        print("auth", auth)
+        # print("auth", auth)
+
+        number = event["data"]["card"]["cardholder"]["phone_number"]
+        print(number)
+        merchant = event["data"]["merchant_data"]["name"]
+        print(merchant)
         # ... custom business logic
+        #not sure what we want to check for here
+
+        # thread = threading.Thread(target=sendMessage, args=())
 
         return json.dumps({"approved": True}), 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
+
+
+        #sendMessage(number=, location=) we need to call this with the correct information.
     #TODO: FIGURE OUT THE WHAT IS PASSED TO Up    
 
 
@@ -76,19 +91,6 @@ def approveTransaction():
 
 
 
-def sendMessage(number):
-    account_sid = os.environ['TWILIO_ACCOUNT_SID']
-    auth_token = os.environ['TWILIO_AUTH_TOKEN']
-    client = Client()
-
-    companyNum = "+16506403459"
-
-
-    message = client.messages.create(
-    body="Please send a receipt and memo of your recent purchase",
-    from_= companyNum,
-    to=number
-    )
 
 
 
