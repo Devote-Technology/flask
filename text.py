@@ -35,6 +35,7 @@ def afterAuth(number, merchant, cardholderId, transactionId):
 
 
 def afterReceipt(image, number):
+    print("hi")
     #figure out the transaction we need to change
     #upload that to db
 

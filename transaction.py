@@ -37,6 +37,10 @@ def getOwnerId(cardholderId, cur):
 createOriginalTransaction("test2","ich_1MBk0LPuGEoJjTfqUkZDfYNW")
 
 
+def addPhoneNumber(number): 
+  print("hello")
+
+
 
 
 
