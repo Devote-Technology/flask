@@ -67,6 +67,10 @@ def approveTransaction():
 
         number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
         merchant = event["data"]["object"]["merchant_data"]["name"]
+        #transactionID
+        #cardHolderID
+        #maybe cardID
+        #pass in entire merchant data
         # ... custom business logic
         #not sure what we want to check for here
 
