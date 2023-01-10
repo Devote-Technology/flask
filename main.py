@@ -43,6 +43,8 @@ def index():
 @app.route('/transaction', methods = ['GET', 'POST'])
 def approveTransaction():
 
+    print("here")
+
     request_data = json.loads(request.data) #not sure what this is.
     signature = request.headers.get("stripe-signature")
 
@@ -64,13 +66,12 @@ def approveTransaction():
         # print("auth", auth)
 
         number = event["data"]["card"]["cardholder"]["phone_number"]
-        print(number)
         merchant = event["data"]["merchant_data"]["name"]
-        print(merchant)
         # ... custom business logic
         #not sure what we want to check for here
 
-        # thread = threading.Thread(target=sendMessage, args=())
+        thread = threading.Thread(target=sendMessage, args=(number, merchant))
+        thread.start()
 
         return json.dumps({"approved": True}), 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
 
