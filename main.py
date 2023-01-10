@@ -65,8 +65,8 @@ def approveTransaction():
         auth = event["data"]["object"]
         # print("auth", auth)
 
-        number = event["data"]["card"]["cardholder"]["phone_number"]
-        merchant = event["data"]["merchant_data"]["name"]
+        print(event["data"]["card"]["cardholder"]["phone_number"])
+        print(event["data"]["merchant_data"]["name"])
         # ... custom business logic
         #not sure what we want to check for here
 
