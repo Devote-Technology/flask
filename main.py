@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 from twilio.twiml.messaging_response import MessagingResponse
 import urllib.request
-import psycopg2
 import stripe
 import json
 # from supabase import create_client, Client
@@ -12,7 +11,11 @@ import threading
 
 
 
+
 app = Flask(__name__)
+
+
+
 
 # url: str = os.environ.get("SUPABASE_URL")
 # key: str = os.environ.get("SUPABASE_KEY")
@@ -66,15 +69,16 @@ def approveTransaction():
         # print("auth", auth)
 
         number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
-        merchant = event["data"]["object"]["merchant_data"]["name"]
-        #transactionID
-        #cardHolderID
+        merchant = event["data"]["object"]["merchant_data"]
+        transactionId = event["id"]
+        cardholderId = event["data"]["object"]["cardholder"]
+
         #maybe cardID
         #pass in entire merchant data
         # ... custom business logic
         #not sure what we want to check for here
 
-        thread = threading.Thread(target=sendMessage, args=(number, merchant))
+        thread = threading.Thread(target=afterAuth, args=(number, merchant, cardholderId, transactionId))
         thread.start()
 
         return json.dumps({"approved": True}), 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
@@ -110,7 +114,10 @@ def receive():
     if numMedia == 1:
         msg = resp.message("Thank you for the receipt!")
         print(request.form['MediaUrl0'])
+        print(request.form)
         # sendReceipt(request.form['MediaUrl0'])
+
+        #function that uploads media url
         
 
     else:

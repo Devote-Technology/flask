@@ -1,10 +1,11 @@
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
+from transaction import createOriginalTransaction
 import os
 
 
 
-def sendMessage(number, merchant):
+def sendMessage(number, merchantName):
     account_sid = os.environ['TWILIO_ACCOUNT_SID']
     auth_token = os.environ['TWILIO_AUTH_TOKEN']
     client = Client(account_sid, auth_token)
@@ -12,7 +13,7 @@ def sendMessage(number, merchant):
 
     companyNum = "+16506403459"
 
-    sendMessage = "Please send a receipt of your recent purchase at " + merchant
+    sendMessage = "Please send a receipt of your recent purchase at " + merchantName
 
 
     message = client.messages.create(
@@ -22,3 +23,18 @@ def sendMessage(number, merchant):
     )
 
     print(message.sid)
+
+
+def afterAuth(number, merchant, cardholderId, transactionId):
+
+    sendMessage(number, merchant["name"])
+    createOriginalTransaction(transactionId=transactionId, cardholderId=cardholderId)
+
+    #function that creates the transaction
+
+
+
+def afterReceipt(image, number):
+    #figure out the transaction we need to change
+    #upload that to db
+
