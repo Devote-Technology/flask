@@ -30,6 +30,7 @@ def getOwnerId(cardholderId, cur):
 
   user = cur.fetchone()
   userId = user[0]
+  print("userId: " + userId)
   return userId
 
 # print(getOwnerId("ich_1MBk0LPuGEoJjTfqUkZDfYNW"))
@@ -41,7 +42,7 @@ def addReceiptUrl(number, receiptURL):
   cur = conn.cursor()
   ownerId = getOwnerIdFromNum(number=number, cur=cur)
 
-  print(ownerId)
+  print("ownerID: " + ownerId)
 
   transactionId = getTransactionId(ownerId=ownerId, cur=cur)
 
