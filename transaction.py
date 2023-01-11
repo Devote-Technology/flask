@@ -7,7 +7,7 @@ import uuid
 def createOriginalTransaction(transactionId, cardholderId):
   conn = getConnection()
   cur = conn.cursor()
-  userId = getOwnerId("ich_1MBk0LPuGEoJjTfqUkZDfYNW", cur)
+  userId = getOwnerId(cardholderId=cardholderId, cur = cur)
   newId = str(uuid.uuid4())
   cur.execute("""
     INSERT INTO "Transaction" (id, "issuerID", "ownerId")
