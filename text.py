@@ -1,6 +1,7 @@
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 from transaction import createOriginalTransaction
+from transaction import addReceiptUrl
 import os
 
 
@@ -35,7 +36,7 @@ def afterAuth(number, merchant, cardholderId, transactionId):
 
 
 def afterReceipt(image, number):
-    print("hi")
+    addReceiptUrl(number=number, receiptURL=image)
     #figure out the transaction we need to change
     #upload that to db
 

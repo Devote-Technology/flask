@@ -119,6 +119,8 @@ def receive():
         print(imageUrl, number)
         # sendReceipt(request.form['MediaUrl0'])
 
+        afterReceipt(image=imageUrl, number=number)
+
         #function that uploads media url
         
 
@@ -127,13 +129,6 @@ def receive():
 
     return str(resp)
 
-
-# def sendReceipt(link):
-
-    
-#     supabase.storage().from_("receipt").upload("test1.png", image)
-    
-#     #upload image to db somehow
 
 
 
