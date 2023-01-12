@@ -95,7 +95,7 @@ def getTransactionId(number, cur):
   inner join "Card"
   ON "Transaction"."ownerId" = "Card"."ownerId"
   where "Card"."phoneNumber" = %s
-  ORDER BY "Transaction"."createdAt" DESC
+  ORDER BY "Transaction"."createdAt" ASC
   """
   data=(number)
   cur.execute(sql, (data, ))
