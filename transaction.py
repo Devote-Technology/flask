@@ -71,8 +71,7 @@ def addTaxToTransaction(number, tax):
   
   conn = getConnection()
   cur = conn.cursor()
-  ownerId = getOwnerIdFromNum(number=number, cur=cur)
-  transactionID = getTransactionId(ownerId=ownerId, cur=cur)
+  transactionID = getTransactionId(number=number, cur=cur)
   sql='UPDATE "TRANSACTION" SET tax = % WHERE id = %s'
 
   cur.execute(sql, (tax, transactionID))
@@ -93,9 +92,14 @@ def getOwnerIdFromNum(number, cur):
   return ownerId
 
 
-def getTransactionId(ownerId, cur):
-  sql='SELECT * FROM "Transaction" WHERE "ownerId" = %s'
-  data=(ownerId)
+def getTransactionId(number, cur):
+  sql="""
+  SELECT issuerID" from "Transaction"
+  inner join "Card"
+  ON "Transaction"."ownerId" = "Card"."ownerId"
+  where "Card"."phoneNumber" = %s
+  """
+  data=(number)
   cur.execute(sql, (data, ))
   transactions = cur.fetchall()
   #TODO: make sure it gets the right one

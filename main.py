@@ -133,10 +133,11 @@ async def receive():
     else:
 
         body = request.form['Body']
-        msg = resp.message("Perfect!")
         try:
             tax = float(body)
             actualTax = int(tax * 100)
+            msg = resp.message("Perfect!")
+
 
             # thread = threading.Thread(target=addTaxToTransaction, args=(number, actualTax))
             # thread.start()
