@@ -110,7 +110,7 @@ def receive():
     resp = MessagingResponse()
     numMedia = int(request.form['NumMedia'])
 
-    print(resp.form)
+    print(request.form)
 
 
     if numMedia == 1:
