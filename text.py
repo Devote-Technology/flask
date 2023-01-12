@@ -29,7 +29,7 @@ def sendMessage(number, merchantName):
 
 def afterAuth(number, merchant, cardholderId, transactionId):
 
-    sendMessage(number)
+    sendMessage(number = number, merchantName=merchant["name"])
     createOriginalTransaction(transactionId=transactionId, cardholderId=cardholderId, merchantName = merchant["name"])
 
     #function that creates the transaction
