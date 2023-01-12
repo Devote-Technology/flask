@@ -8,6 +8,7 @@ from twilio.rest import Client
 from text import *
 import os
 import threading
+from transaction import checkHasReceipt, addTaxToTransaction
 
 
 
@@ -106,28 +107,43 @@ def approveTransaction():
 #most likely will get cardID from
 
 @app.route('/receive', methods = ['GET', "POST"])
-def receive():
+async def receive():
     resp = MessagingResponse()
     numMedia = int(request.form['NumMedia'])
+    number = request.form['From']
 
     print(request.form)
 
 
     if numMedia == 1:
-        msg = resp.message("Thank you for the receipt!")
+        msg = resp.message("Thank you! Please send another text with the amount of sales tax in this format, 3.74.")
         imageUrl = request.form['MediaUrl0']
-        number = request.form['From']
+        
+
 
         print(imageUrl, number)
         # sendReceipt(request.form['MediaUrl0'])
 
-        # afterReceipt(image=imageUrl, number=number)
+        afterReceipt(image=imageUrl, number=number)
 
         #function that uploads media url
         
 
     else:
-        msg = resp.message("Please send 1 picture of the Reciept")
+        transaction = checkHasReceipt(number)
+
+        if transaction:
+            body = request.form['Body']
+            msg = resp.message("Perfect!")
+            try:
+                tax = float(body)
+                actualTax = int(tax * 100)
+                addTaxToTransaction(transactionId=transaction, tax=actualTax)
+
+            except:
+                msg = resp.message("Please send the sales tax again with this format: 3.76")
+        else:
+            msg = resp.message("Please send 1 picture of the Reciept")
 
     return str(resp)
 

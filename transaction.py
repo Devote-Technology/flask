@@ -54,6 +54,31 @@ def addReceiptUrl(number, receiptURL):
   conn.close()
 
 
+#returns transaction that has receipt linked to text convo
+def checkHasReceipt(number):
+  conn = getConnection()
+  cur = conn.cursor()
+  ownerId = getOwnerIdFromNum(number=number, cur=cur)
+
+  transactionID = getTransactionId(ownerId=ownerId, cur=cur)
+
+  conn.close()
+
+  return transactionID
+  
+
+def addTaxToTransaction(transactionId, tax):
+  conn = getConnection()
+  cur = conn.cursor()
+  
+  sql='UPDATE "TRANSACTION" SET tax = % WHERE id = %s'
+
+  cur.execute(sql, (tax, transactionId))
+
+  conn.close()
+
+  return True
+
 
 
 def getOwnerIdFromNum(number, cur):
@@ -67,17 +92,17 @@ def getOwnerIdFromNum(number, cur):
 
 
 def getTransactionId(ownerId, cur):
-  sql='SELECT * FROM "Transaction" WHERE "ownerId" = %s AND receipt is NULL;'
+  sql='SELECT * FROM "Transaction" WHERE "ownerId" = %s'
   data=(ownerId)
   cur.execute(sql, (data, ))
   transactions = cur.fetchall()
   #TODO: make sure it gets the right one
-  transaction = transactions[0]
+  transaction = transactions[-1]
   transactionId = transaction[0]
-  print(transactions)
-  print(transactionId)
+  
 
   return transactionId
+
 
 
 

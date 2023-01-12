@@ -13,8 +13,7 @@ def sendMessage(number, merchantName):
     
 
     companyNum = "+16506403459"
-
-    sendMessage = "Please send a receipt of your recent purchase at " + merchantName
+    sendMessage = "Please send a receipt of your recent purchase at " + merchantName 
 
 
     message = client.messages.create(
@@ -24,6 +23,8 @@ def sendMessage(number, merchantName):
     )
 
     print(message.sid)
+
+
 
 
 def afterAuth(number, merchant, cardholderId, transactionId):
