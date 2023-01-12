@@ -112,7 +112,7 @@ async def receive():
     numMedia = int(request.form['NumMedia'])
     number = request.form['From']
 
-    print(request.form)
+    print("here")
 
 
     if numMedia == 1:
@@ -139,6 +139,10 @@ async def receive():
             try:
                 tax = float(body)
                 actualTax = int(tax * 100)
+
+                thread = threading.Thread(target=addTaxToTransaction, args=(transaction, actualTax))
+                thread.start()
+
                 addTaxToTransaction(transactionId=transaction, tax=actualTax)
 
             except:
