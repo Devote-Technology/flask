@@ -67,13 +67,15 @@ def checkHasReceipt(number):
   return transactionID
   
 
-def addTaxToTransaction(transactionId, tax):
+def addTaxToTransaction(number, tax):
+  
   conn = getConnection()
   cur = conn.cursor()
-  
+  ownerId = getOwnerIdFromNum(number=number, cur=cur)
+  transactionID = getTransactionId(ownerId=ownerId, cur=cur)
   sql='UPDATE "TRANSACTION" SET tax = % WHERE id = %s'
 
-  cur.execute(sql, (tax, transactionId))
+  cur.execute(sql, (tax, transactionID))
 
   conn.close()
 

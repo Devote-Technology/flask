@@ -131,25 +131,21 @@ async def receive():
         
 
     else:
-        transaction = checkHasReceipt(number)
-        print(transaction)
 
-        if transaction:
-            body = request.form['Body']
-            msg = resp.message("Perfect!")
-            try:
-                tax = float(body)
-                actualTax = int(tax * 100)
+        body = request.form['Body']
+        msg = resp.message("Perfect!")
+        try:
+            tax = float(body)
+            actualTax = int(tax * 100)
 
-                thread = threading.Thread(target=addTaxToTransaction, args=(transaction, actualTax))
-                thread.start()
+            # thread = threading.Thread(target=addTaxToTransaction, args=(number, actualTax))
+            # thread.start()
 
-                return str(resp)
+            return str(resp)
 
-            except:
-                msg = resp.message("Please send the sales tax again with this format: 3.76")
-        else:
-            msg = resp.message("Please send 1 picture of the Reciept")
+        except:
+            msg = resp.message("Please send the sales tax again with this format: 3.76")
+    
 
     return str(resp)
 
