@@ -124,7 +124,8 @@ async def receive():
         print(imageUrl, number)
         # sendReceipt(request.form['MediaUrl0'])
 
-        afterReceipt(image=imageUrl, number=number)
+        thread = threading.Thread(target=afterReceipt, args=(imageUrl, number))
+        thread.start()
 
         #function that uploads media url
         
@@ -143,7 +144,7 @@ async def receive():
                 thread = threading.Thread(target=addTaxToTransaction, args=(transaction, actualTax))
                 thread.start()
 
-                addTaxToTransaction(transactionId=transaction, tax=actualTax)
+                return str(resp)
 
             except:
                 msg = resp.message("Please send the sales tax again with this format: 3.76")

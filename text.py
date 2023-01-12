@@ -32,12 +32,15 @@ def afterAuth(number, merchant, cardholderId, transactionId):
     sendMessage(number = number, merchantName=merchant["name"])
     createOriginalTransaction(transactionId=transactionId, cardholderId=cardholderId, merchantName = merchant["name"])
 
+    return 
     #function that creates the transaction
 
 
 
 def afterReceipt(image, number):
     addReceiptUrl(number=number, receiptURL=image)
+
+    return 
     #figure out the transaction we need to change
     #upload that to db
 
