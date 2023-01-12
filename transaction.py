@@ -40,11 +40,8 @@ def getOwnerId(cardholderId, cur):
 def addReceiptUrl(number, receiptURL): 
   conn = getConnection()
   cur = conn.cursor()
-  ownerId = getOwnerIdFromNum(number=number, cur=cur)
 
-  print("ownerID: " + ownerId)
-
-  transactionId = getTransactionId(ownerId=ownerId, cur=cur)
+  transactionId = getTransactionId(number=number, cur=cur)
 
   sql='UPDATE "Transaction" SET receipt = %s WHERE id = %s'
 
@@ -94,7 +91,7 @@ def getOwnerIdFromNum(number, cur):
 
 def getTransactionId(number, cur):
   sql="""
-  SELECT issuerID" from "Transaction"
+  SELECT "Transaction".id from "Transaction"
   inner join "Card"
   ON "Transaction"."ownerId" = "Card"."ownerId"
   where "Card"."phoneNumber" = %s
@@ -102,8 +99,10 @@ def getTransactionId(number, cur):
   data=(number)
   cur.execute(sql, (data, ))
   transactions = cur.fetchall()
+  print(transactions)
   #TODO: make sure it gets the right one
   transaction = transactions[-1]
+  print(transaction)
   transactionId = transaction[0]
   
 
@@ -112,7 +111,7 @@ def getTransactionId(number, cur):
 
 
 
-# addReceiptUrl("+14806258657", "fakeURL")
+addReceiptUrl("+14806258657", "fakeURL")
   
 
 

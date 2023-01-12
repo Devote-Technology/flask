@@ -107,12 +107,11 @@ def approveTransaction():
 #most likely will get cardID from
 
 @app.route('/receive', methods = ['GET', "POST"])
-async def receive():
+def receive():
     resp = MessagingResponse()
     numMedia = int(request.form['NumMedia'])
     number = request.form['From']
 
-    print("here")
 
 
     if numMedia == 1:
@@ -124,8 +123,10 @@ async def receive():
         print(imageUrl, number)
         # sendReceipt(request.form['MediaUrl0'])
 
-        thread = threading.Thread(target=afterReceipt, args=(imageUrl, number))
-        thread.start()
+        # thread = threading.Thread(target=afterReceipt, args=(imageUrl, number))
+        # thread.start()
+
+        afterReceipt(image=imageUrl, number=number)
 
         #function that uploads media url
         
@@ -138,9 +139,9 @@ async def receive():
             actualTax = int(tax * 100)
             msg = resp.message("Perfect!")
 
-
             # thread = threading.Thread(target=addTaxToTransaction, args=(number, actualTax))
             # thread.start()
+            addTaxToTransaction(number=number, tax=actualTax)
 
             return str(resp)
 
