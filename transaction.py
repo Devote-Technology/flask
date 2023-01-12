@@ -69,9 +69,10 @@ def addTaxToTransaction(number, tax):
   conn = getConnection()
   cur = conn.cursor()
   transactionID = getTransactionId(number=number, cur=cur)
-  sql='UPDATE "TRANSACTION" SET tax = % WHERE id = %s'
+  sql='UPDATE "Transaction" SET tax = %s WHERE id = %s'
 
   cur.execute(sql, (tax, transactionID))
+  conn.commit()
 
   conn.close()
 
@@ -111,7 +112,7 @@ def getTransactionId(number, cur):
 
 
 
-addReceiptUrl("+14806258657", "fakeURL")
+addTaxToTransaction("+14806258657", 96)
   
 
 

@@ -137,11 +137,10 @@ def receive():
         try:
             tax = float(body)
             actualTax = int(tax * 100)
-            msg = resp.message("Perfect!")
-
             # thread = threading.Thread(target=addTaxToTransaction, args=(number, actualTax))
             # thread.start()
             addTaxToTransaction(number=number, tax=actualTax)
+            msg = resp.message("Perfect!")
 
             return str(resp)
 
