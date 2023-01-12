@@ -10,8 +10,8 @@ def createOriginalTransaction(transactionId, cardholderId, merchantName):
   userId = getOwnerId(cardholderId=cardholderId, cur = cur)
   newId = str(uuid.uuid4())
   cur.execute("""
-    INSERT INTO "Transaction" (id, "issuerID", "ownerId", location)
-    VALUES (%s, %s, %s, %s); 
+    INSERT INTO "Transaction" (id, "issuerID", "ownerId", location, "createdAt")
+    VALUES (%s, %s, %s, %s, now()); 
   """, (newId, transactionId, userId, merchantName))
 
 
@@ -26,7 +26,6 @@ def getOwnerId(cardholderId, cur):
   sql='SELECT * FROM "User" WHERE "cardholderID" = %s;'
   data=(cardholderId)
   cur.execute(sql, (data,))
-  # cur.execute(sql)
 
   user = cur.fetchone()
   userId = user[0]
@@ -96,6 +95,7 @@ def getTransactionId(number, cur):
   inner join "Card"
   ON "Transaction"."ownerId" = "Card"."ownerId"
   where "Card"."phoneNumber" = %s
+  ORDER BY "Transaction"."createdAt" DESC
   """
   data=(number)
   cur.execute(sql, (data, ))
@@ -112,7 +112,9 @@ def getTransactionId(number, cur):
 
 
 
-addTaxToTransaction("+14806258657", 96)
+#addTaxToTransaction("+14806258657", 96)
+#createOriginalTransaction("heloajfd", "ich_1MBk0LPuGEoJjTfqUkZDfYNW", "target")
+
   
 
 
