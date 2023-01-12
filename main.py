@@ -110,6 +110,8 @@ def receive():
     resp = MessagingResponse()
     numMedia = int(request.form['NumMedia'])
 
+    print(resp.form)
+
 
     if numMedia == 1:
         msg = resp.message("Thank you for the receipt!")
@@ -119,7 +121,7 @@ def receive():
         print(imageUrl, number)
         # sendReceipt(request.form['MediaUrl0'])
 
-        afterReceipt(image=imageUrl, number=number)
+        # afterReceipt(image=imageUrl, number=number)
 
         #function that uploads media url
         
