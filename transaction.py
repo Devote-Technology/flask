@@ -4,15 +4,15 @@ import uuid
 
 
 
-def createOriginalTransaction(transactionId, cardholderId):
+def createOriginalTransaction(transactionId, cardholderId, merchantName):
   conn = getConnection()
   cur = conn.cursor()
   userId = getOwnerId(cardholderId=cardholderId, cur = cur)
   newId = str(uuid.uuid4())
   cur.execute("""
-    INSERT INTO "Transaction" (id, "issuerID", "ownerId")
-    VALUES (%s, %s, %s); 
-  """, (newId, transactionId, userId))
+    INSERT INTO "Transaction" (id, "issuerID", "ownerId", location)
+    VALUES (%s, %s, %s, %s); 
+  """, (newId, transactionId, userId, merchantName))
 
 
   conn.commit()

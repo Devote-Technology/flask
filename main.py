@@ -131,6 +131,7 @@ async def receive():
 
     else:
         transaction = checkHasReceipt(number)
+        print(transaction)
 
         if transaction:
             body = request.form['Body']
