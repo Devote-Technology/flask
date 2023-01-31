@@ -4,15 +4,23 @@ from transaction import createOriginalTransaction
 from transaction import addReceiptUrl
 import os
 
+enviroment: str = os.environ.get("ENVIRONMENT")
+
 
 
 def sendMessage(number, merchantName):
     account_sid = os.environ['TWILIO_ACCOUNT_SID']
     auth_token = os.environ['TWILIO_AUTH_TOKEN']
     client = Client(account_sid, auth_token)
+
+
+    if enviroment == "development":
+        companyNum = "+16506403459"
+    else:
+        companyNum = "+18019809310"
     
 
-    companyNum = "+16506403459"
+    
     sendMessage = "Please send a receipt of your recent purchase at " + merchantName 
 
 
