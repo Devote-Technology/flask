@@ -7,12 +7,12 @@ import uuid
 def createOriginalTransaction(transactionId, cardholderId, merchantName):
   conn = getConnection()
   cur = conn.cursor()
-  # userId = getOwnerId(cardholderId=cardholderId, cur = cur)
+  orgId = getOrgId(cardholderId=cardholderId, cur = cur)
   newId = str(uuid.uuid4())
   cur.execute("""
-    INSERT INTO "Transaction" (id, "stripeTxID", "cardholderID", "createdAt")
-    VALUES (%s, %s, %s, now()); 
-  """, (newId, transactionId, cardholderId))
+    INSERT INTO "Transaction" (id, "stripeTxID", "cardholderID", "createdAt", "organizationId", "updatedAt")
+    VALUES (%s, %s, %s, now(), %s), now(); 
+  """, (newId, transactionId, cardholderId, orgId))
 
 
   conn.commit()
@@ -21,16 +21,15 @@ def createOriginalTransaction(transactionId, cardholderId, merchantName):
 
 
 
-def getOwnerId(cardholderId, cur):
+def getOrgId(cardholderId, cur):
 
   sql='SELECT * FROM "User" WHERE "cardholderID" = %s;'
   data=(cardholderId)
   cur.execute(sql, (data,))
 
   user = cur.fetchone()
-  userId = user[0]
-  print("userId: " + userId)
-  return userId
+  orgId = user[9]
+  return orgId
 
 # print(getOwnerId("ich_1MBk0LPuGEoJjTfqUkZDfYNW"))
 # createOriginalTransaction("test2","ich_1MBk0LPuGEoJjTfqUkZDfYNW")
