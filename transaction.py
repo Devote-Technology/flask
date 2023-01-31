@@ -7,12 +7,12 @@ import uuid
 def createOriginalTransaction(transactionId, cardholderId, merchantName):
   conn = getConnection()
   cur = conn.cursor()
-  userId = getOwnerId(cardholderId=cardholderId, cur = cur)
+  # userId = getOwnerId(cardholderId=cardholderId, cur = cur)
   newId = str(uuid.uuid4())
   cur.execute("""
-    INSERT INTO "Transaction" (id, "issuerID", "ownerId", location, "createdAt")
+    INSERT INTO "Transaction" (id, "stripeTxID, "cardholderID", "createdAt")
     VALUES (%s, %s, %s, %s, now()); 
-  """, (newId, transactionId, userId, merchantName))
+  """, (newId, transactionId, cardholderId, merchantName))
 
 
   conn.commit()
@@ -93,7 +93,7 @@ def getTransactionId(number, cur):
   sql="""
   SELECT "Transaction".id from "Transaction"
   inner join "Card"
-  ON "Transaction"."ownerId" = "Card"."ownerId"
+  ON "Transaction"."cardholderID" = "Card"."cardHolderID"
   where "Card"."phoneNumber" = %s
   ORDER BY "Transaction"."createdAt" ASC
   """
