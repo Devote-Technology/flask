@@ -106,9 +106,9 @@ def getTransactionId(number, cur):
   transaction = transactions[-1]
   print(transaction)
   transactionId = transaction[0]
-  stripeTxId = transaction[10]
+  # stripeTxId = transaction[10]
 
-  print(stripeTxId + ": stripe id")
+  # print(stripeTxId + ": stripe id")
   
 
   return transactionId
