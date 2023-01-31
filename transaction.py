@@ -4,6 +4,8 @@ import uuid
 
 
 
+
+
 def createOriginalTransaction(transactionId, cardholderId, merchantName):
   conn = getConnection()
   cur = conn.cursor()
@@ -104,6 +106,9 @@ def getTransactionId(number, cur):
   transaction = transactions[-1]
   print(transaction)
   transactionId = transaction[0]
+  stripeTxId = transaction[10]
+
+  print(stripeTxId + ": stripe id")
   
 
   return transactionId

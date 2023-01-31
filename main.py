@@ -26,6 +26,7 @@ user: str = os.environ.get("DB_USER")
 password: str = os.environ.get("DB_PASSWORD")
 host: str = os.environ.get("DB_HOST")
 port: str = os.environ.get("DB_PORT")
+enviroment: str = os.environ.get("ENVIRONMENT")
 
 # Set your secret key. Remember to switch to your live secret key in production.
 # See your keys here: https://dashboard.stripe.com/apikeys
