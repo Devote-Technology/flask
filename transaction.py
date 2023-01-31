@@ -11,7 +11,7 @@ def createOriginalTransaction(transactionId, cardholderId, merchantName):
   newId = str(uuid.uuid4())
   cur.execute("""
     INSERT INTO "Transaction" (id, "stripeTxID", "cardholderID", "createdAt", "organizationId", "updatedAt")
-    VALUES (%s, %s, %s, now(), %s), now(); 
+    VALUES (%s, %s, %s, now(), %s, now()); 
   """, (newId, transactionId, cardholderId, orgId))
 
 
