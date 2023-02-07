@@ -1,12 +1,19 @@
 from db import getConnection
 import uuid
+import stripe
+
+import os
+
+stripe_key: str = os.environ.get("STRIPE_KEY")
+
+stripe.api_key = stripe_key
 
 
 
 
 
 
-def createOriginalTransaction(transactionId, cardholderId, merchantName):
+def createOriginalTransaction(transactionId, cardholderId):
   conn = getConnection()
   cur = conn.cursor()
   orgId = getOrgId(cardholderId=cardholderId, cur = cur)
@@ -41,7 +48,19 @@ def addReceiptUrl(number, receiptURL):
   conn = getConnection()
   cur = conn.cursor()
 
-  transactionId = getTransactionId(number=number, cur=cur)
+  transaction = getTransactionId(number=number, cur=cur)
+
+  transactionId = transaction[0]
+
+  connectID = getConnectId(transaction[2], cur)
+
+  stripe.issuing.Authorization.modify(
+  transaction[1],
+  metadata = {"receiptURL" : receiptURL},
+  stripe_account= connectID
+  )
+
+
 
   sql='UPDATE "Transaction" SET receipt = %s WHERE id = %s'
 
@@ -57,7 +76,9 @@ def checkHasReceipt(number):
   cur = conn.cursor()
   ownerId = getOwnerIdFromNum(number=number, cur=cur)
 
-  transactionID = getTransactionId(ownerId=ownerId, cur=cur)
+  transaction = getTransactionId(ownerId=ownerId, cur=cur)
+
+  transactionID = transaction[0]
 
   conn.close()
 
@@ -68,7 +89,18 @@ def addTaxToTransaction(number, tax):
   
   conn = getConnection()
   cur = conn.cursor()
-  transactionID = getTransactionId(number=number, cur=cur)
+  transaction = getTransactionId(number=number, cur=cur)
+
+  transactionID = transaction[0]
+
+  connectID = getConnectId(transaction[2], cur)
+
+  stripe.issuing.Authorization.modify(
+    transaction[1],
+    metadata = {"salesTax" : tax},
+    stripe_account= connectID
+  )
+
   sql='UPDATE "Transaction" SET tax = %s WHERE id = %s'
 
   cur.execute(sql, (tax, transactionID))
@@ -92,7 +124,8 @@ def getOwnerIdFromNum(number, cur):
 
 def getTransactionId(number, cur):
   sql="""
-  SELECT "Transaction".id from "Transaction"
+  SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
+  from "Transaction"
   inner join "Card"
   ON "Transaction"."cardholderID" = "Card"."cardholderID"
   where "Card"."phoneNumber" = %s
@@ -101,22 +134,38 @@ def getTransactionId(number, cur):
   data=(number)
   cur.execute(sql, (data, ))
   transactions = cur.fetchall()
-  print(transactions)
   #TODO: make sure it gets the right one
   transaction = transactions[-1]
-  print(transaction)
-  transactionId = transaction[0]
   # stripeTxId = transaction[10]
 
   # print(stripeTxId + ": stripe id")
   
 
-  return transactionId
+  return transaction
+
+
+def getConnectId(orgId, cur):
+  sql="""
+  SELECT "connectAccountID"
+  FROM "Organization"
+  WHERE id = %s 
+  """
+
+  data=(orgId)
+  cur.execute(sql, (data, ))
+  connectIds = cur.fetchall()
+
+  connectID = connectIds[0][0]
+
+  return connectID
+  
+  
 
 
 
 
-#addTaxToTransaction("+14806258657", 96)
+#addTaxToTransaction("+14806258657", 104)
+#addReceiptUrl("+14806258657", "https://api.twilio.com/2010-04-01/Accounts/AC66756d2940b364773dfc21efc2a93152/Messages/MM79024cbdecbfed2ad70a156d92955204/Media/ME18c16571c5182bc9963c8e8dae83bd4f")
 #createOriginalTransaction("heloajfd", "ich_1MBk0LPuGEoJjTfqUkZDfYNW", "target")
 
   
