@@ -71,6 +71,8 @@ def approveTransaction():
         number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
         merchant = event["data"]["object"]["merchant_data"]
         transactionId = event["data"]["object"]["id"]
+
+        print(transactionId)
         cardholderId = event["data"]["object"]["cardholder"]
 
         #maybe cardID
