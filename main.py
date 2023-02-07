@@ -67,12 +67,12 @@ def approveTransaction():
         return ("Invalid signature", 400)
 
     if event["type"] == "issuing_authorization.request":
-        auth = event["data"]["object"]
-        # print("auth", auth)
 
         number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
         merchant = event["data"]["object"]["merchant_data"]
-        transactionId = event["id"]
+        transactionId = event["data"]["object"]["id"]
+
+        print(transactionId)
         cardholderId = event["data"]["object"]["cardholder"]
 
         #maybe cardID
