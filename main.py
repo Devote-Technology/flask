@@ -27,14 +27,12 @@ password: str = os.environ.get("DB_PASSWORD")
 host: str = os.environ.get("DB_HOST")
 port: str = os.environ.get("DB_PORT")
 enviroment: str = os.environ.get("ENVIRONMENT")
+webhook_secret: str = os.environ.get("WEBHOOK_SECRET")
 
 # Set your secret key. Remember to switch to your live secret key in production.
 # See your keys here: https://dashboard.stripe.com/apikeys
 stripe.api_key = 'sk_test_51LruhiLQhKtna1xjBrA0gz4hdt5Fpkrk1HIckTnYPiFbBbWmmIVYvDKUNQYexxRAQaOyKNH9rdTEtuTreclGALbr00eJvEOIjl'
 
-# Uncomment and replace with a real secret. You can find your endpoint's
-# secret in your webhook settings.
-webhook_secret = 'whsec_ae2e9V6KIbrIR5ei6ph1jKjJSw9q52Xc'
 
 
 #conn = psycopg2.connect(database=db, user = user, password = password, host = host, port = port)
