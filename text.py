@@ -14,7 +14,7 @@ def sendMessage(number, merchantName):
     client = Client(account_sid, auth_token)
 
 
-    if enviroment == "development":
+    if enviroment == "dev":
         companyNum = "+16506403459"
     else:
         companyNum = "+18019809310"

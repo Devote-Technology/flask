@@ -28,10 +28,11 @@ host: str = os.environ.get("DB_HOST")
 port: str = os.environ.get("DB_PORT")
 enviroment: str = os.environ.get("ENVIRONMENT")
 webhook_secret: str = os.environ.get("WEBHOOK_SECRET")
+stripe_key: str = os.environ.get("STRIPE_KEY")
 
 # Set your secret key. Remember to switch to your live secret key in production.
 # See your keys here: https://dashboard.stripe.com/apikeys
-stripe.api_key = 'sk_test_51LruhiLQhKtna1xjBrA0gz4hdt5Fpkrk1HIckTnYPiFbBbWmmIVYvDKUNQYexxRAQaOyKNH9rdTEtuTreclGALbr00eJvEOIjl'
+stripe.api_key = stripe_key
 
 
 
