@@ -63,6 +63,7 @@ def approveTransaction():
         return ("Invalid payload", 400)
     except stripe.error.SignatureVerificationError as e:
         # Invalid signature
+        print (e)
         return ("Invalid signature", 400)
 
     if event["type"] == "issuing_authorization.request":
