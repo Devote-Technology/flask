@@ -131,7 +131,7 @@ def getTransactionId(number, cur):
   """
 
   data=(number)
-  cur.execute(sql2, (data))
+  cur.execute(sql2, (data, ))
   cards = cur.fetchall()
 
   print(cards)
