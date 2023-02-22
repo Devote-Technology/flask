@@ -131,7 +131,7 @@ def getTransactionId(number, cur):
 
   cur.execute(sql2)
   users = cur.fetchall()
-  print("users: " + users)
+  print(users)
 
   sql="""
 
@@ -146,7 +146,7 @@ def getTransactionId(number, cur):
 
   data=(number)
 
-  print("number: " +  data)
+ 
   cur.execute(sql, (data, ))
   transactions = cur.fetchall()
 
