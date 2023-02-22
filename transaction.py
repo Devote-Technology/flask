@@ -143,6 +143,7 @@ def getTransactionId(number, cur):
   SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
   from "Transaction"
   WHERE "Transaction"."cardholderID" = %s; 
+  ORDER BY "Transaction"."createdAt" DESC;
   """
 
   cardholderId = (cards[0][0])
