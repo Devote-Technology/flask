@@ -71,7 +71,7 @@ def approveTransaction():
         number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
         merchant = event["data"]["object"]["merchant_data"]
         transactionId = event["data"]["object"]["id"]
-        # metadata = 
+        metadata = event["data"]["object"]["card"]["cardholder"]["metadata"]
 
         print(transactionId)
         cardholderId = event["data"]["object"]["cardholder"]
@@ -81,7 +81,7 @@ def approveTransaction():
         # ... custom business logic
         #not sure what we want to check for here
 
-        thread = threading.Thread(target=afterAuth, args=(number, merchant, cardholderId, transactionId))
+        thread = threading.Thread(target=afterAuth, args=(number, merchant, cardholderId, transactionId, metadata))
         thread.start()
 
         return json.dumps({"approved": True}), 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
