@@ -127,7 +127,7 @@ def getTransactionId(number, cur):
   print(number)
 
   sql2 = """
-  SELECT "cardholderID, phoneNumber"
+  SELECT "cardholderID", "phoneNumber"
   from "Card"
   """
 
@@ -147,7 +147,7 @@ def getTransactionId(number, cur):
 
   
 
-  
+  print(currentCard)
 
 
   sql = """
