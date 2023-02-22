@@ -124,63 +124,21 @@ def getOwnerIdFromNum(number, cur):
 
 def getTransactionId(number, cur):
 
-  print(number)
-
-  sql2 = """
-  SELECT "cardholderID", "phoneNumber"
-  from "Card"
-  """
-
-  data=(number)
-  cur.execute(sql2, (data, ))
-  cards = cur.fetchall()
-
-  print(cards)
-
-
-  currentCard = None
-
-  for card in cards:
-    if card[1] == number:
-      currentCard = card
-      break 
-
-  
-
-  print(currentCard)
-
-
-  sql = """
+  sql="""
   SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
   from "Transaction"
-  WHERE "Transaction"."cardholderID" LIKE %s; 
-  ORDER BY ""createdAt" DESC;
+  inner join "Card"
+  ON "Transaction"."cardholderID" = "Card"."cardholderID"
+  where "Card"."phoneNumber" = %s
+  ORDER BY "Transaction"."createdAt" DESC;
   """
 
-  cardholderId = (currentCard[0])
-  cur.execute(sql, (cardholderId, ))
 
-
-  print(transactions)
-
-  transactions = cur.fetchall()
-
-  # sql="""
-
-  # SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
-  # from "Transaction"
-  # inner join "Card"
-  # ON "Transaction"."cardholderID" = "Card"."cardholderID"
-  # where "Card"."phoneNumber" = %s
-  # ORDER BY "Transaction"."createdAt" DESC;
-  # """
-
-
-  # data=(number)
+  data=(number)
 
  
-  # cur.execute(sql, (data, ))
-  # transactions = cur.fetchall()
+  cur.execute(sql, (data, ))
+  transactions = cur.fetchall()
 
   print(transactions)
   #TODO: make sure it gets the right one
