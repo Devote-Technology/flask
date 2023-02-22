@@ -124,10 +124,12 @@ def getOwnerIdFromNum(number, cur):
 
 def getTransactionId(number, cur):
 
+  print(number)
+
   sql2 = """
   SELECT "cardholderID"
   from "Card"
-  where "phoneNumber" = %s
+ 
   """
 
   data=(number)
@@ -143,6 +145,7 @@ def getTransactionId(number, cur):
   SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
   from "Transaction"
   WHERE "Transaction"."cardholderID" = %s; 
+  ORDER BY "Transaction"."createdAt" DESC;
   """
 
   cardholderId = (cards[0][0])
