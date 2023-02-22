@@ -139,7 +139,7 @@ def getTransactionId(number, cur):
   from "Transaction"
   inner join "Card"
   ON "Transaction"."cardholderID" = "Card"."cardholderID"
-  where "Card"."phoneNumber" = %s
+  where "Card"."phoneNumber" = '%s'
   ORDER BY "Transaction"."createdAt" DESC;
   """
 
