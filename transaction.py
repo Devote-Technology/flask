@@ -125,13 +125,19 @@ def getOwnerIdFromNum(number, cur):
 def getTransactionId(number, cur):
 
   sql2 = """
-  SELECT *
-  from "User"
+  SELECT "cardholderID"
+  from "Card"
+  where "phoneNumber" = %s
   """
 
-  cur.execute(sql2)
-  users = cur.fetchall()
-  print(users)
+  data=(number)
+  cur.execute(sql2, data)
+  cards = cur.fetchall()
+
+  print(cards)
+
+  
+  # print(users)
 
   sql="""
 
@@ -139,7 +145,7 @@ def getTransactionId(number, cur):
   from "Transaction"
   inner join "Card"
   ON "Transaction"."cardholderID" = "Card"."cardholderID"
-  where "Card"."phoneNumber" = '%s'
+  where "Card"."phoneNumber" = %s
   ORDER BY "Transaction"."createdAt" DESC;
   """
 
