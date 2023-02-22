@@ -35,9 +35,9 @@ def sendMessage(number, merchantName):
 
 
 
-def afterAuth(number, merchant, cardholderId, transactionId):
+def afterAuth(number, merchant, cardholderId, transactionId, metadata):
 
-    createOriginalTransaction(transactionId=transactionId, cardholderId=cardholderId)
+    createOriginalTransaction(transactionId=transactionId, cardholderId=cardholderId, metadata=metadata)
     sendMessage(number = number, merchantName=merchant["name"])
     
 

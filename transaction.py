@@ -13,15 +13,25 @@ stripe.api_key = stripe_key
 
 
 
-def createOriginalTransaction(transactionId, cardholderId):
+def createOriginalTransaction(transactionId, cardholderId, metadata):
   conn = getConnection()
   cur = conn.cursor()
   orgId = getOrgId(cardholderId=cardholderId, cur = cur)
   newId = str(uuid.uuid4())
+
+  print(metadata)
+  print(type(metadata)) 
+
+  tag = "None"
+
+
+  if  metadata and hasattr(metadata, "tag"):
+    tag = metadata["tag"] 
+
   cur.execute("""
-    INSERT INTO "Transaction" (id, "stripeTxID", "cardholderID", "createdAt", "organizationId", "updatedAt")
-    VALUES (%s, %s, %s, now(), %s, now()); 
-  """, (newId, transactionId, cardholderId, orgId))
+    INSERT INTO "Transaction" (id, "stripeTxID", "cardholderID", "createdAt", "organizationId", "updatedAt", "tag")
+    VALUES (%s, %s, %s, now(), %s, now(), %s); 
+  """, (newId, transactionId, cardholderId, orgId, tag))
 
 
   conn.commit()
