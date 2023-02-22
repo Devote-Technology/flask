@@ -148,17 +148,20 @@ def getTransactionId(number, cur):
   
 
   
-  # print(users)
+
 
   sql = """
   SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
   from "Transaction"
-  WHERE "Transaction"."cardholderID" = %s; 
+  WHERE "Transaction"."cardholderID" LIKE %s; 
   ORDER BY ""createdAt" DESC;
   """
 
   cardholderId = (currentCard[0])
   cur.execute(sql, (cardholderId, ))
+
+
+  print(transactions)
 
   transactions = cur.fetchall()
 
