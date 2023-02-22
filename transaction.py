@@ -129,13 +129,17 @@ def getTransactionId(number, cur):
   inner join "Card"
   ON "Transaction"."cardholderID" = "Card"."cardholderID"
   where "Card"."phoneNumber" = %s
-  ORDER BY "Transaction"."createdAt" ASC
+  ORDER BY "Transaction"."createdAt" DESC;
   """
+
+  print("number" +  number)
   data=(number)
   cur.execute(sql, (data, ))
   transactions = cur.fetchall()
+
+  print(transactions)
   #TODO: make sure it gets the right one
-  transaction = transactions[-1]
+  transaction = transactions[0]
   # stripeTxId = transaction[10]
 
   # print(stripeTxId + ": stripe id")
