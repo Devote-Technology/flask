@@ -139,22 +139,33 @@ def getTransactionId(number, cur):
   
   # print(users)
 
-  sql="""
-
+  sql = """
   SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
   from "Transaction"
-  inner join "Card"
-  ON "Transaction"."cardholderID" = "Card"."cardholderID"
-  where "Card"."phoneNumber" = %s
-  ORDER BY "Transaction"."createdAt" DESC;
+  WHERE "Transaction"."cardholderID" = %s; 
   """
 
+  cardholderId = (cards[0][0])
+  cur.execute(sql, (cardholderId, ))
 
-  data=(number)
+  transactions = cur.fetchall()
+
+  # sql="""
+
+  # SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
+  # from "Transaction"
+  # inner join "Card"
+  # ON "Transaction"."cardholderID" = "Card"."cardholderID"
+  # where "Card"."phoneNumber" = %s
+  # ORDER BY "Transaction"."createdAt" DESC;
+  # """
+
+
+  # data=(number)
 
  
-  cur.execute(sql, (data, ))
-  transactions = cur.fetchall()
+  # cur.execute(sql, (data, ))
+  # transactions = cur.fetchall()
 
   print(transactions)
   #TODO: make sure it gets the right one
