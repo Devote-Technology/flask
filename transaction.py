@@ -20,16 +20,17 @@ def createOriginalTransaction(transactionId, cardholderId, metadata):
   newId = str(uuid.uuid4())
 
   print(metadata)
-  print(type (metadata)) 
+  print(type(metadata)) 
 
   tag = "None"
 
 
   if  metadata and hasattr(metadata, "tag"):
     tag = metadata["tag"] 
+
   cur.execute("""
     INSERT INTO "Transaction" (id, "stripeTxID", "cardholderID", "createdAt", "organizationId", "updatedAt", "tag")
-    VALUES (%s, %s, %s, now(), %s, now()); 
+    VALUES (%s, %s, %s, now(), %s, now(), %s); 
   """, (newId, transactionId, cardholderId, orgId, tag))
 
 
