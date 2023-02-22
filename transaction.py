@@ -126,7 +126,7 @@ def getTransactionId(number, cur):
 
   sql2 = """
   SELECT *
-  from "Users"
+  from "User"
   """
 
   cur.execute(sql2)
