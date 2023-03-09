@@ -66,27 +66,29 @@ def approveTransaction():
         print (e)
         return ("Invalid signature", 400)
 
-    if event["type"] == "issuing_authorization.request":
+    if event["type"] == "issuing_authorization.created":
 
-        number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
-        merchant = event["data"]["object"]["merchant_data"]
-        transactionId = event["data"]["object"]["id"]
-        metadata = event["data"]["object"]["card"]["cardholder"]["metadata"]
+        if event["data"]["object"]["approved"] == True:
+            print(event)
 
-        print(transactionId)
-        cardholderId = event["data"]["object"]["cardholder"]
+            number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
+            merchant = event["data"]["object"]["merchant_data"]
+            transactionId = event["data"]["object"]["id"]
+            metadata = event["data"]["object"]["card"]["cardholder"]["metadata"]
 
-        #maybe cardID
-        #pass in entire merchant data
-        # ... custom business logic
-        #not sure what we want to check for here
+            cardholderId = event["data"]["object"]["cardholder"]
 
-        thread = threading.Thread(target=afterAuth, args=(number, merchant, cardholderId, transactionId, metadata))
-        thread.start()
+            #maybe cardID
+            #pass in entire merchant data
+            # ... custom business logic
+            #not sure what we want to check for here
 
-        return json.dumps({"approved": True}), 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
+            thread = threading.Thread(target=afterAuth, args=(number, merchant, cardholderId, transactionId, metadata))
+            thread.start()
 
+            return json.dumps({"approved": True}), 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
 
+        
         #sendMessage(number=, location=) we need to call this with the correct information.
     #TODO: FIGURE OUT THE WHAT IS PASSED TO Up    
 
