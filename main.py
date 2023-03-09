@@ -86,7 +86,7 @@ def approveTransaction():
             thread = threading.Thread(target=afterAuth, args=(number, merchant, cardholderId, transactionId, metadata))
             thread.start()
 
-            return json.dumps({"approved": True}), 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
+            return 200, {"Stripe-Version": "2022-08-01", "Content-Type": "application/json"}
 
         
         #sendMessage(number=, location=) we need to call this with the correct information.
