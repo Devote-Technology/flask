@@ -32,6 +32,30 @@ def sendMessage(number, merchantName):
 
     print(message.sid)
 
+def sendDeclinedMessage(number, merchantName):
+    account_sid = os.environ['TWILIO_ACCOUNT_SID']
+    auth_token = os.environ['TWILIO_AUTH_TOKEN']
+    client = Client(account_sid, auth_token)
+
+
+    if enviroment == "dev":
+        companyNum = "+16506403459"
+    else:
+        companyNum = "+18019809310"
+    
+
+    
+    sendMessage = "Your recent purchase at " + merchantName + " was declined. /n This may have been caused because your card is inactive or you have not set a budget yet."  
+
+
+    message = client.messages.create(
+    body=sendMessage,
+    from_= companyNum,
+    to=number
+    )
+
+    print(message.sid)
+
 
 
 

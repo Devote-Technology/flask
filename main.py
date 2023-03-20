@@ -9,9 +9,7 @@ from text import *
 import os
 import threading
 from transaction import checkHasReceipt, addTaxToTransaction
-
-
-
+from text import sendDeclinedMessage 
 
 app = Flask(__name__)
 
@@ -87,6 +85,14 @@ def approveTransaction():
             return jsonify(success=True)
         
         else: 
+
+            number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
+            merchant = event["data"]["object"]["merchant_data"]
+
+            sendDeclinedMessage(number, merchant["name"])
+
+
+
             return jsonify(success=True)
 
         
