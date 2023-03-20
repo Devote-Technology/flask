@@ -45,7 +45,7 @@ def sendDeclinedMessage(number, merchantName):
     
 
     
-    sendMessage = "Your recent purchase at " + merchantName + " was declined. /n This may have been caused because your card is inactive or you have not set a budget yet."  
+    sendMessage = "Your recent purchase at " + merchantName + " was declined. This may have been caused because your card is inactive, you haven't set a budget, or you have exceeded your budget."  
 
 
     message = client.messages.create(
