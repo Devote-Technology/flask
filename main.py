@@ -9,9 +9,7 @@ from text import *
 import os
 import threading
 from transaction import checkHasReceipt, addTaxToTransaction
-
-
-
+from text import sendDeclinedMessage 
 
 app = Flask(__name__)
 
@@ -47,7 +45,6 @@ def index():
 @app.route('/transaction', methods = ['GET', 'POST'])
 def approveTransaction():
 
-    print("here")
 
     request_data = json.loads(request.data) #not sure what this is.
     signature = request.headers.get("stripe-signature")
@@ -69,7 +66,6 @@ def approveTransaction():
     if event["type"] == "issuing_authorization.created":
 
         if event["data"]["object"]["approved"] == True:
-            print(event)
 
             number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
             merchant = event["data"]["object"]["merchant_data"]
@@ -85,6 +81,17 @@ def approveTransaction():
 
             thread = threading.Thread(target=afterAuth, args=(number, merchant, cardholderId, transactionId, metadata))
             thread.start()
+
+            return jsonify(success=True)
+        
+        else: 
+
+            number = event["data"]["object"]["card"]["cardholder"]["phone_number"]
+            merchant = event["data"]["object"]["merchant_data"]
+
+            sendDeclinedMessage(number, merchant["name"])
+
+
 
             return jsonify(success=True)
 
