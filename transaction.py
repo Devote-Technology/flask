@@ -135,13 +135,13 @@ def getOwnerIdFromNum(number, cur):
 def getTransactionId(number, cur):
 
   sql="""
-  SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
-  from "Transaction"
-  inner join "Card"
-  ON "Transaction"."cardholderID" = "Card"."cardholderID"
-  where "Card"."phoneNumber" = %s
-  ORDER BY "Transaction"."createdAt" DESC;
-  """
+      SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
+      from "Transaction"
+      inner join "User"
+      ON "Transaction"."cardholderID" = "User"."cardholderID"
+      where "User"."phoneNumber" = %s
+      ORDER BY "Transaction"."createdAt" DESC;
+      """
 
 
   data=(number)
@@ -150,7 +150,19 @@ def getTransactionId(number, cur):
   cur.execute(sql, (data, ))
   transactions = cur.fetchall()
 
-  print(transactions)
+  if len(transactions) == 0:
+    sql="""
+      SELECT "Transaction".id, "Transaction"."stripeTxID", "Transaction"."organizationId"
+      from "Transaction"
+      inner join "Card"
+      ON "Transaction"."cardholderID" = "Card"."cardholderID"
+      where "Card"."phoneNumber" = %s
+      ORDER BY "Transaction"."createdAt" DESC;
+      """
+    
+    cur.execute(sql, (data, ))
+    transactions = cur.fetchall()
+
   #TODO: make sure it gets the right one
   transaction = transactions[0]
   # stripeTxId = transaction[10]
